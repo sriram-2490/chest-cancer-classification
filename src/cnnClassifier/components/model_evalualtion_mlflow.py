@@ -3,6 +3,7 @@ from pathlib import Path
 import mlflow
 import mlflow.keras
 from urllib.parse import urlparse
+import dagshub  # <-- Import the dagshub module
 from cnnClassifier.entity.config_entity import EvaluationConfig
 from cnnClassifier.utils.common import save_json
 
@@ -10,11 +11,9 @@ class Evaluation:
     def __init__(self, config: EvaluationConfig):
         self.config = config
 
-    
     def _valid_generator(self):
-
         datagenerator_kwargs = dict(
-            rescale = 1./255,
+            rescale=1./255,
             validation_split=0.30
         )
 
@@ -35,39 +34,33 @@ class Evaluation:
             **dataflow_kwargs
         )
 
-
     @staticmethod
     def load_model(path: Path) -> tf.keras.Model:
         return tf.keras.models.load_model(path)
-    
 
     def evaluation(self):
         self.model = self.load_model(self.config.path_of_model)
         self._valid_generator()
-        self.score = self.model.evaluate(self.valid_generator)
+        self.score = self.model.evaluate(self.valid_generator)  # Use self.model instead of model
         self.save_score()
 
     def save_score(self):
         scores = {"loss": self.score[0], "accuracy": self.score[1]}
         save_json(path=Path("scores.json"), data=scores)
 
-    
     def log_into_mlflow(self):
-        mlflow.set_registry_uri(self.config.mlflow_uri)
-        tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
-        
+        # Initialize Dagshub and MLflow
+        dagshub.init(repo_owner='sriram-2490', repo_name='my-first-repo', mlflow=True)  # Corrected line
+
         with mlflow.start_run():
             mlflow.log_params(self.config.all_params)
             mlflow.log_metrics(
                 {"loss": self.score[0], "accuracy": self.score[1]}
             )
             # Model registry does not work with file store
+            tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
             if tracking_url_type_store != "file":
-
                 # Register the model
-                # There are other ways to use the Model Registry, which depends on the use case,
-                # please refer to the doc for more information:
-                # https://mlflow.org/docs/latest/model-registry.html#api-workflow
                 mlflow.keras.log_model(self.model, "model", registered_model_name="VGG16Model")
             else:
                 mlflow.keras.log_model(self.model, "model")

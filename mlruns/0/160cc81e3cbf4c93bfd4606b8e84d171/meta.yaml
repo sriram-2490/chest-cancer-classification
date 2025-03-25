@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/SaiVenkataSriramChow/Downloads/chest-cancer-classification/mlruns/0/160cc81e3cbf4c93bfd4606b8e84d171/artifacts
+end_time: 1742676197594
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 160cc81e3cbf4c93bfd4606b8e84d171
+run_name: exultant-gnat-280
+run_uuid: 160cc81e3cbf4c93bfd4606b8e84d171
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742676187217
+status: 4
+tags: []
+user_id: SaiVenkataSriramChow

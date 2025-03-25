@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/SaiVenkataSriramChow/Downloads/chest-cancer-classification/mlruns/0/7bbc781fe37f47fca2fba1273ed1e722/artifacts
+end_time: 1742871516450
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 7bbc781fe37f47fca2fba1273ed1e722
+run_name: resilient-skink-173
+run_uuid: 7bbc781fe37f47fca2fba1273ed1e722
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742871508624
+status: 4
+tags: []
+user_id: SaiVenkataSriramChow
