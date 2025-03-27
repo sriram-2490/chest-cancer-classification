@@ -136,6 +136,3 @@ GitHub Actions will automatically build and push the Docker image to ECR and dep
 ## Contributing
 Feel free to fork the repository, make improvements, and submit pull requests.
 
-## License
-This project is licensed under the MIT License.
-
